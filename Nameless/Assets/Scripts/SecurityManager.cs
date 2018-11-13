@@ -2,15 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SecurityManager : MonoBehaviour {
+public class SecurityManager
+{
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public enum Trigger_Status
+    {
+        CLEAR,
+        CAUTION,
+        TRIGGER
+    }
+
+    public enum Entity_Status
+    {
+        ENABLED,
+        DISABLED,
+        BROKEN
+    }
+
+    public Trigger_Status TriggerStatus { get; private set; }
+    public Entity_Status EntityStatus { get; private set; }
+
 }
