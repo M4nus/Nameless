@@ -68,12 +68,20 @@ namespace GameSpace
 
     [CustomEditor(typeof(GameManager))]
     public class CustomInspector : Editor
-    {              
-        public override void OnInspectorGUI()
-        {
-            EditorGUILayout.LabelField("PLAYER", EditorStyles.boldLabel);
-            EditorGUI.indentLevel++;                                                                                
+    {
+        private GameManager gm; 
 
+        private void OnEnable()
+        {
+            gm = target as GameManager;
+        }
+
+        public override void OnInspectorGUI()
+        {                                    
+            EditorGUILayout.LabelField("PLAYER", EditorStyles.boldLabel);
+            EditorGUI.indentLevel++;
+
+            gm.playerSpeed = EditorGUILayout.FloatField("Player speed", gm.playerSpeed);
 
             EditorGUI.indentLevel--;
             EditorGUILayout.Space();
@@ -88,7 +96,7 @@ namespace GameSpace
             
 
             EditorGUI.indentLevel--;
-            EditorGUILayout.Space();
+            EditorGUILayout.Space();   
         }
     }
 #endif
