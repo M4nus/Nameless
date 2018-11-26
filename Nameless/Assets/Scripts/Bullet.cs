@@ -2,21 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour, IPooledObject {
+public class Bullet : MonoBehaviour, IPooledObject
+{
 
     public float speed = 20f;
     public Rigidbody2D rb;
-
-	// Use this for initialization
-	/*void Start () {
-        rb.velocity = transform.up * speed;
-       // Destroy(gameObject);
-	}*/
-
-    void OnTriggerEnter2D(Collider2D obj)
+                  
+    void OnCollisionEnter2D(Collision2D col)
     {
-        Debug.Log(obj.name);
-        Destroy(gameObject);
+        Debug.Log(col.gameObject.name);
+        this.gameObject.SetActive(false);
     }
 	
     public void OnObjectSpawn()
