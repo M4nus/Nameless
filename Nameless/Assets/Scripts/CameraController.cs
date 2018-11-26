@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour {
+public class CameraController : MonoBehaviour
+{
 
     public GameObject Player;
 	
 	
 	// Update is called once per frame
-	void Update () {
-        transform.position = new Vector3(Player.transform.position.x, Player.transform.position.y, -20);
-        
+	void Update ()
+    {
+        transform.position = new Vector3(Player.transform.position.x, Player.transform.position.y, -20);         
     }
 }
