@@ -438,7 +438,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 534669902}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 342a58e42c53aa84da5d8cb970e71487, type: 3}
+  m_Script: {fileID: 11500000, guid: 54e3a3afaade3a446a19aebbc82f202d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 879287338}
@@ -736,11 +736,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 879287338}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1802781ccff9d3c4caf494ebbc6f7f3a, type: 3}
+  m_Script: {fileID: 11500000, guid: 38c56c02cd7fbdb4ca8e9217b25646d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   firePoint: {fileID: 872331310}
-  bulletPrefeab: {fileID: 1813538403959748, guid: 1a7fe9a306104bb49923f32b36419c0f,
+  bulletPrefeab: {fileID: 1813538403959748, guid: ee2c7e7ed4833ac48b5427c83ce2fa01,
     type: 2}
 --- !u!114 &879287343
 MonoBehaviour:
@@ -750,10 +750,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 879287338}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4be78f5418d99e14db01149a52493c39, type: 3}
+  m_Script: {fileID: 11500000, guid: 2a320f7ea95c23943aecaa06e83b8be2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pools: []
+  pools:
+  - tag: Bullet
+    prefab: {fileID: 1813538403959748, guid: ee2c7e7ed4833ac48b5427c83ce2fa01, type: 2}
+    size: 5
+  - tag: Bullet
+    prefab: {fileID: 1813538403959748, guid: ee2c7e7ed4833ac48b5427c83ce2fa01, type: 2}
+    size: 5
+  - tag: Bullet
+    prefab: {fileID: 1813538403959748, guid: ee2c7e7ed4833ac48b5427c83ce2fa01, type: 2}
+    size: 4
+  - tag: Bullet
+    prefab: {fileID: 1813538403959748, guid: ee2c7e7ed4833ac48b5427c83ce2fa01, type: 2}
+    size: 2
+  - tag: Bullet
+    prefab: {fileID: 1813538403959748, guid: ee2c7e7ed4833ac48b5427c83ce2fa01, type: 2}
+    size: 6
 --- !u!1 &997670656
 GameObject:
   m_ObjectHideFlags: 0
@@ -1319,13 +1334,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1556305674}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4be78f5418d99e14db01149a52493c39, type: 3}
+  m_Script: {fileID: 11500000, guid: 2a320f7ea95c23943aecaa06e83b8be2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pools:
-  - tag: Bullets
-    prefab: {fileID: 1813538403959748, guid: 1a7fe9a306104bb49923f32b36419c0f, type: 2}
-    size: 30
+  pools: []
 --- !u!4 &1556305676
 Transform:
   m_ObjectHideFlags: 0
