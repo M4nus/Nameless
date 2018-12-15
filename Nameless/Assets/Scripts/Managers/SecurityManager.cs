@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+#region States
+
 public enum Trigger_Status
 {
     CLEAR,
@@ -16,6 +18,26 @@ public enum Entity_Status
     DISABLED,
     BROKEN
 }
+
+public enum Door_Type
+{
+    NORMAL,
+    ELECTRONICAL,
+    METAL
+}
+
+public enum Door_State
+{
+    OPENED,
+    CLOSED,
+    BLOCKED,
+    ENCRYPTED
+}
+
+#endregion       
+
+
+#region Cameras
 
 [System.Serializable]
 public class SecurityCameraParam
@@ -34,7 +56,32 @@ public class SecurityCameraParam
     }
 }
 
+#endregion   
+
+#region Doors
+
+[System.Serializable]
+public class DoorParam
+{
+    public int id;
+    public GameObject door;
+    public Door_Type doorType;
+    public Door_State doorState;
+
+    public DoorParam(int newID, GameObject doorObj, Door_Type currentDoorType, Door_State currentDoorState)
+    {
+        id = newID;
+        door = doorObj;
+        doorType = currentDoorType;
+        doorState = currentDoorState;
+    }
+}
+
+#endregion
+
+
 public class SecurityManager : MonoBehaviour
 {                                                  
-    public List<SecurityCameraParam> securityCameras = new List<SecurityCameraParam>();     
+    public List<SecurityCameraParam> securityCameras = new List<SecurityCameraParam>();
+    public List<DoorParam> doors = new List<DoorParam>();
 }
