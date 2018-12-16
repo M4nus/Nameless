@@ -15,14 +15,9 @@ public class Shooting : MonoBehaviour
         objectPooler = ObjectPooler.Instance; 
     }
 
-	void Update () {
-		if(Input.GetButtonDown("Fire1"))
-        {
-            shoot();
-        }
-	}
+	
 
-    void shoot()
+    public void shoot()
     {
         objectPooler.SpawnFromPool("Bullet", firePoint.transform.position, firePoint.transform.rotation);
         //Instantiate(bulletPrefeab, firePoint.position, firePoint.rotation);
