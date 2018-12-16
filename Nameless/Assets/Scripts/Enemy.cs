@@ -33,10 +33,10 @@ public class Enemy : MonoBehaviour {
         ydis = (target.transform.position.y - transform.position.y);
         xdis = (target.transform.position.x - transform.position.x);
 
-        if (distanceToTarget < shootRange  && actualCooldownTime <= 0)
+        if (distanceToTarget < shootRange  && actualCooldownTime <= 0 && (Mathf.Abs(xdis) < 0.1 || Mathf.Abs(ydis) < 0.1))
         {
            // Debug.Log("strzelaj!");
-            //shooting.shoot();
+            shooting.shoot();
             actualCooldownTime = shootingCooldown;
         }
 
@@ -83,22 +83,43 @@ public class Enemy : MonoBehaviour {
 
     void move()
     {
-        if (Mathf.Abs(ydis) > 0.1 || distanceToTarget > shootRange)
+
+
+
+        if (Mathf.Abs(ydis) > 0.1 )
         {
-            Debug.Log(" ruch w pionowo");
-            Vector3 my = moveY * -Mathf.Sign(target.transform.position.y - transform.position.y);
-            transform.Translate(my * Time.deltaTime * speed);
+            if(ydis >0.1 )
+            {
+                Vector3 my = moveY * Mathf.Sign(target.transform.position.y - transform.position.y);
+                transform.Translate(my * Time.deltaTime * speed);
+            }
+            else
+            {
+                Vector3 my = moveY * -Mathf.Sign(target.transform.position.y - transform.position.y);
+                transform.Translate(my * Time.deltaTime * speed);
+            }
+            
+            
         }
 
-        else if (Mathf.Abs(xdis) > 0.001 || distanceToTarget > shootRange)
+        else if (Mathf.Abs(xdis) > 0.1 )
+        {
+            if (xdis > 0.1 )
             {
-                Debug.Log(" ruch w poziomo");
                 Vector3 mx = moveX * -Mathf.Sign(target.transform.position.x - transform.position.x);
                 transform.Translate(mx * Time.deltaTime * speed);
             }
+            else
+            {
+                Vector3 mx = moveX * Mathf.Sign(target.transform.position.x - transform.position.x);
+                transform.Translate(mx * Time.deltaTime * speed);
+            }
+        }
             
         
     }
+
+    
 
     void OnDrawGizmos()
     {
