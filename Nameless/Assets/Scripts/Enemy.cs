@@ -1,8 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour {
+public class Enemy : MonoBehaviour, IHurtable{
+
+
+    public int healthPoints;
 
     public float shootRange;
     public GameObject target;
@@ -17,7 +21,7 @@ public class Enemy : MonoBehaviour {
     private float angleToTarget;
     public float xdis;
     public float ydis;
-    private Transform toMovePosition;
+    //private Transform toMovePosition;
     
 	void Start () {
         moveY = new Vector3(speed, 0, 0);
@@ -27,11 +31,13 @@ public class Enemy : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        angleToTarget = Mathf.Atan(ydis / xdis);
         distanceToTarget = Vector3.Distance(transform.position, target.transform.position);
         //distanceToTarget = Mathf.Sqrt(Mathf.Pow(target.transform.position.x - transform.position.x, 2) - Mathf.Pow(target.transform.position.y - transform.position.y, 2));
         //angleToTarget = Mathf.Asin( target.transform.position.y / distanceToTarget);
         ydis = (target.transform.position.y - transform.position.y);
         xdis = (target.transform.position.x - transform.position.x);
+
 
         if (distanceToTarget < shootRange  && actualCooldownTime <= 0 && (Mathf.Abs(xdis) < 0.1 || Mathf.Abs(ydis) < 0.1))
         {
@@ -79,6 +85,20 @@ public class Enemy : MonoBehaviour {
            // Debug.Log("prawo");
             transform.rotation = new Quaternion(0, 0, 0, 0);
         }
+
+        /*if(angleToTarget > -Mathf.PI / 4 && angleToTarget <= Mathf.PI / 4 && xdis / ydis < 1 && xdis / ydis >= -1) // prawo
+        {
+            transform.rotation = new Quaternion(0, 0, 90, 90);
+            
+        }
+        else if((angleToTarget >= Mathf.PI / 4 || angleToTarget > -Mathf.PI / 4)  && xdis / ydis > 1 && xdis / ydis >= -1) // gora
+        {
+            transform.rotation = new Quaternion(0, 0, 0, 0);
+        }
+        else if((angleToTarget <= - Mathf.PI / 4 || angleToTarget <= Mathf.PI / 4) && xdis / ydis >1 && xdis / ydis >= -1)
+        {
+            transform.rotation = new Quaternion(0, 0, -90, 90);
+        }*/
     }
 
     void move()
@@ -102,7 +122,7 @@ public class Enemy : MonoBehaviour {
             
         }
 
-        else if (Mathf.Abs(xdis) > 0.1 )
+        if (Mathf.Abs(xdis) > 0.1 )
         {
             if (xdis > 0.1 )
             {
@@ -127,4 +147,21 @@ public class Enemy : MonoBehaviour {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, shootRange);
     }
+
+    public void Die()
+    {
+        gameObject.SetActive(false);
+        //Destroy(gameObject);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        healthPoints -= damage;
+    }
+
+    public int GetCurrentHealthPoints()
+    {
+        return healthPoints;
+    }
+
 }

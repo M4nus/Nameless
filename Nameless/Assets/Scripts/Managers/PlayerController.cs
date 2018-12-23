@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class MovementManager : MonoBehaviour
+public class PlayerController : MonoBehaviour, IHurtable
 {
     public float angle;
     public float rotspeed = 10f;
@@ -8,9 +8,13 @@ public class MovementManager : MonoBehaviour
     private float input;
     public Shooting shooting;
 
+    public int maxHealthPoints;
+    public int currentHealthPoints;
+
     private void Start()
     {
         shooting = GetComponent<Shooting>();
+        currentHealthPoints = maxHealthPoints;
     }
 
     void Update ()
@@ -24,7 +28,7 @@ public class MovementManager : MonoBehaviour
             move();
             transform.rotation = new Quaternion(0, 0, -Mathf.Sign(input) * 90, 90);
         }
-        else if (Input.GetAxisRaw("Vertical") != 0)
+        if (Input.GetAxisRaw("Vertical") != 0)
         {
             input = Input.GetAxisRaw("Vertical");
             moveInput = new Vector3(0, input, 0);
@@ -40,18 +44,26 @@ public class MovementManager : MonoBehaviour
                 shooting.shoot();
             }
         }
-
-
-
-
-
-
-
     }           
 
     private void move()
     {
         Vector3 moveVelocity = moveInput * GameSpace.GameManager.instance.playerSpeed * Time.deltaTime;
         transform.position += moveVelocity;
+    }
+
+    public void Die()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        currentHealthPoints -= damage;
+    }
+
+    public int GetCurrentHealthPoints()
+    {
+        return currentHealthPoints;
     }
 }
