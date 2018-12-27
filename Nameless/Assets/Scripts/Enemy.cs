@@ -12,36 +12,33 @@ public class Enemy : MonoBehaviour, IHurtable{
     public GameObject target;
     public Shooting shooting;
     public float shootingCooldown;
-    public float speed = 10;
+    public float speed;
 
     private Vector3 moveX;
     private Vector3 moveY;
+    private Vector2 targetVector;
     private float actualCooldownTime;
     public double distanceToTarget;
-    private float angleToTarget;
+    public float angleToTarget;
     public float xdis;
     public float ydis;
-    //private Transform toMovePosition;
     
 	void Start () {
         moveY = new Vector3(speed, 0, 0);
         moveX = new Vector3(0, speed, 0);
     }
 	
-	// Update is called once per frame
 	void Update () {
 
-        angleToTarget = Mathf.Atan(ydis / xdis);
-        distanceToTarget = Vector3.Distance(transform.position, target.transform.position);
-        //distanceToTarget = Mathf.Sqrt(Mathf.Pow(target.transform.position.x - transform.position.x, 2) - Mathf.Pow(target.transform.position.y - transform.position.y, 2));
-        //angleToTarget = Mathf.Asin( target.transform.position.y / distanceToTarget);
+        targetVector = new Vector2(target.gameObject.transform.position.x - gameObject.transform.position.x, target.gameObject.transform.position.y - gameObject.transform.position.y);
+        angleToTarget = Vector2.Angle(new Vector2(1, 0), targetVector);
         ydis = (target.transform.position.y - transform.position.y);
         xdis = (target.transform.position.x - transform.position.x);
+        distanceToTarget = Vector2.Distance(gameObject.transform.position, target.transform.position);
 
 
-        if (distanceToTarget < shootRange  && actualCooldownTime <= 0 && (Mathf.Abs(xdis) < 0.1 || Mathf.Abs(ydis) < 0.1))
+        if (distanceToTarget < shootRange  && actualCooldownTime <= 0 && (Mathf.Abs(xdis) < 0.7 || Mathf.Abs(ydis) < 0.7))
         {
-           // Debug.Log("strzelaj!");
             shooting.shoot();
             actualCooldownTime = shootingCooldown;
         }
@@ -63,76 +60,65 @@ public class Enemy : MonoBehaviour, IHurtable{
 
     void faceTarget()
     {
-        if(xdis >= 0 && ydis >= 0) //w góre
+
+
+        if(angleToTarget <= 45 + 10&& xdis > 0) // prawo
         {
-            //Debug.Log("gora");
-            transform.rotation = new Quaternion(0, 0, 90, 90);
+            Debug.Log("prawo");
+            transform.rotation = new Quaternion(0, 0, 0, 0);
             
         }
-        else if (xdis < 0 && ydis > 0) // w lewo
+        else if(angleToTarget > 45 && angleToTarget <= 3 * 45 -10 && ydis > 0 ) // gora
         {
-            //Debug.Log("lewo");
+            Debug.Log("gora");
+            transform.rotation = new Quaternion(0, 0, 90, 90);
+        }
+        else if(angleToTarget > 3 * 45  + 10 && xdis < 0) // lewo
+        {
+            Debug.Log("lewo");
             transform.rotation = new Quaternion(0, 0, 180, 0);
-
         }
-        else if (xdis < 0 && ydis < 0) // w dół
+        else if (angleToTarget > 45 && angleToTarget <= 3 * 45 -10 && ydis < 0) // dol
         {
-            //Debug.Log("dol");
-            transform.rotation = new Quaternion(0, 0, -90, 90);
-        } 
-        else if (xdis > 0 && ydis < 0) // w prawo
-        {
-           // Debug.Log("prawo");
-            transform.rotation = new Quaternion(0, 0, 0, 0);
+            Debug.Log("dol");
+            transform.rotation = new Quaternion(0, 0, 90, -90);
         }
-
-        /*if(angleToTarget > -Mathf.PI / 4 && angleToTarget <= Mathf.PI / 4 && xdis / ydis < 1 && xdis / ydis >= -1) // prawo
-        {
-            transform.rotation = new Quaternion(0, 0, 90, 90);
-            
-        }
-        else if((angleToTarget >= Mathf.PI / 4 || angleToTarget > -Mathf.PI / 4)  && xdis / ydis > 1 && xdis / ydis >= -1) // gora
-        {
-            transform.rotation = new Quaternion(0, 0, 0, 0);
-        }
-        else if((angleToTarget <= - Mathf.PI / 4 || angleToTarget <= Mathf.PI / 4) && xdis / ydis >1 && xdis / ydis >= -1)
-        {
-            transform.rotation = new Quaternion(0, 0, -90, 90);
-        }*/
     }
 
     void move()
     {
 
-
-
-        if (Mathf.Abs(ydis) > 0.1 )
+        if ((Mathf.Abs(ydis) > 1 && Mathf.Abs(xdis) > 1) || distanceToTarget >= shootRange)
         {
-            if(ydis >0.1 )
-            {
-                Vector3 my = moveY * Mathf.Sign(target.transform.position.y - transform.position.y);
-                transform.Translate(my * Time.deltaTime * speed);
-            }
-            else
-            {
-                Vector3 my = moveY * -Mathf.Sign(target.transform.position.y - transform.position.y);
-                transform.Translate(my * Time.deltaTime * speed);
-            }
-            
-            
-        }
 
-        if (Mathf.Abs(xdis) > 0.1 )
-        {
-            if (xdis > 0.1 )
+            if (Mathf.Abs(ydis) > 0.5)
             {
-                Vector3 mx = moveX * -Mathf.Sign(target.transform.position.x - transform.position.x);
-                transform.Translate(mx * Time.deltaTime * speed);
+                if (ydis > 0.5)
+                {
+                    Vector3 my = moveY * Mathf.Sign(target.transform.position.y - transform.position.y);
+                    transform.Translate(my * Time.deltaTime * speed);
+                }
+                else
+                {
+                    Vector3 my = moveY * -Mathf.Sign(target.transform.position.y - transform.position.y);
+                    transform.Translate(my * Time.deltaTime * speed);
+                }
+
+
             }
-            else
+
+            else if (Mathf.Abs(xdis) > 0.5)
             {
-                Vector3 mx = moveX * Mathf.Sign(target.transform.position.x - transform.position.x);
-                transform.Translate(mx * Time.deltaTime * speed);
+                if (xdis > 0.5)
+                {
+                    Vector3 mx = moveX * -Mathf.Sign(target.transform.position.x - transform.position.x);
+                    transform.Translate(mx * Time.deltaTime * speed);
+                }
+                else
+                {
+                    Vector3 mx = moveX * Mathf.Sign(target.transform.position.x - transform.position.x);
+                    transform.Translate(mx * Time.deltaTime * speed);
+                }
             }
         }
             

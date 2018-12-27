@@ -143,13 +143,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef737312e32e52f42acb5472e8474de1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthPoints: 20
+  healthPoints: 100
   shootRange: 10
   target: {fileID: 889132209}
   shooting: {fileID: 56170886}
-  shootingCooldown: 1
+  shootingCooldown: 0.5
   speed: 2
   distanceToTarget: 0
+  angleToTarget: 0
   xdis: 0
   ydis: 0
 --- !u!114 &56170886
@@ -1324,7 +1325,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 534669902}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.81, y: 1, z: -10}
+  m_LocalPosition: {x: 6.81, y: 1, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2161,7 +2162,7 @@ MonoBehaviour:
   angle: 0
   rotspeed: 200
   shooting: {fileID: 0}
-  maxHealthPoints: 20
+  maxHealthPoints: 100
   currentHealthPoints: 0
 --- !u!58 &889132213
 CircleCollider2D:
