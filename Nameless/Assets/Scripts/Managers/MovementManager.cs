@@ -14,7 +14,7 @@ public class MovementManager : MonoBehaviour
             Move(obj);
             obj.transform.rotation = new Quaternion(0, 0, -Mathf.Sign(input) * 90, 90);
         }
-        else if(Input.GetAxisRaw(axisY) != 0)
+        if(Input.GetAxisRaw(axisY) != 0)
         {
             input = Input.GetAxisRaw(axisY);
             moveInput = new Vector3(0, input, 0);

@@ -27,7 +27,7 @@ public class Shooting : MonoBehaviour
         }
     }
        
-    void Shoot()
+    public void Shoot()
     {
         objectPooler.SpawnFromPool("Bullet", firePoint.transform.position, firePoint.transform.rotation);
         canShoot = false;
