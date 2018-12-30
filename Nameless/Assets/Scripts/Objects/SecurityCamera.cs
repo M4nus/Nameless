@@ -61,5 +61,6 @@ public class SecurityCamera : MonoBehaviour
             yield return null;
         }
         _sm.securityCameras[index].triggerStatus = Trigger_Status.TRIGGER;
+        FindObjectOfType<AudioManager>().Play("WOO");
     }
 }
