@@ -24,10 +24,7 @@ public class Bullet : MonoBehaviour, IPooledObject
                 o.Die();
             }
 
-        }
-
-        
-
+        }    
     }
 
 
