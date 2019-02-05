@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -17,40 +18,27 @@ public class Enemy : MonoBehaviour, IHurtable{
     private Vector3 moveX;
     private Vector3 moveY;
     private Vector2 targetVector;
-    private float actualCooldownTime;
+    public float actualCooldownTime;
     public double distanceToTarget;
     public float angleToTarget;
     public float xdis;
     public float ydis;
+    private IBehaviour behaviour;
     
 	void Start () {
         moveY = new Vector3(speed, 0, 0);
         moveX = new Vector3(0, speed, 0);
+        behaviour = new IdleBehaviour(this);
+
+
     }
 	
 	void Update () {
 
-        targetVector = new Vector2(target.gameObject.transform.position.x - gameObject.transform.position.x, target.gameObject.transform.position.y - gameObject.transform.position.y);
-        angleToTarget = Vector2.Angle(new Vector2(1, 0), targetVector);
-        ydis = (target.transform.position.y - transform.position.y);
-        xdis = (target.transform.position.x - transform.position.x);
-        distanceToTarget = Vector2.Distance(gameObject.transform.position, target.transform.position);
+        behaviour.Act();
+    }
 
-
-        if (distanceToTarget < shootRange  && actualCooldownTime <= 0 && (Mathf.Abs(xdis) < 0.7 || Mathf.Abs(ydis) < 0.7))
-        {
-            shooting.Shoot();
-            actualCooldownTime = shootingCooldown;
-        }
-
-        lowerCooldown();
-        faceTarget();
-
-        
-        move();
-	}
-
-    void lowerCooldown()
+    public void lowerCooldown()
     {
         if(actualCooldownTime > 0)
         {
@@ -58,7 +46,7 @@ public class Enemy : MonoBehaviour, IHurtable{
         }
     }
 
-    void faceTarget()
+    public void faceTarget()
     {
 
 
@@ -85,8 +73,13 @@ public class Enemy : MonoBehaviour, IHurtable{
         }
     }
 
-    void move()
+    public void moveToPlayer()
     {
+        targetVector = new Vector2(target.gameObject.transform.position.x - gameObject.transform.position.x, target.gameObject.transform.position.y - gameObject.transform.position.y);
+        angleToTarget = Vector2.Angle(new Vector2(1, 0), targetVector);
+        ydis = (target.transform.position.y - transform.position.y);
+        xdis = (target.transform.position.x - transform.position.x);
+        distanceToTarget = Vector2.Distance(gameObject.transform.position, target.transform.position);
 
         if ((Mathf.Abs(ydis) > 1 && Mathf.Abs(xdis) > 1) || distanceToTarget >= shootRange)
         {
@@ -149,5 +142,56 @@ public class Enemy : MonoBehaviour, IHurtable{
     {
         return healthPoints;
     }
+
+    public void moveToPoint(Point point)
+    {
+
+        if ((Mathf.Abs(transform.position.y - point.y) > 0.5 && Mathf.Abs(point.x - transform.position.x) > 0.5))
+        {
+            if (Mathf.Abs(transform.position.y - point.y) > 0.5)
+            {
+                if (transform.position.y - point.y > 0.5)
+                {
+                    Vector3 mx = moveX * Mathf.Sign(point.x - transform.position.x);
+                    transform.Translate(mx * Time.deltaTime * speed);
+                }
+                else
+                {
+                    Vector3 mx = moveX * -Mathf.Sign(point.x - transform.position.x);
+                    transform.Translate(mx * Time.deltaTime * speed);
+                }
+
+            }
+
+            if (Mathf.Abs(transform.position.x - point.x) > 0.5)
+            {
+                if (transform.position.x - point.x > 0.5)
+                {
+                    Vector3 my = moveY * -Mathf.Sign(point.y - transform.position.y);
+                    transform.Translate(my * Time.deltaTime * speed);
+                }
+                else
+                {
+                    Vector3 my = moveY * Mathf.Sign(point.y - transform.position.y);
+                    transform.Translate(my * Time.deltaTime * speed);
+                }
+
+            }
+        }
+           
+    }
+
+    public class Point
+    {
+        public float x;
+        public float y;
+
+        public Point(float x, float y)
+        {
+            this.x = y;
+            this.y = y;
+        }
+    }
+
 
 }
