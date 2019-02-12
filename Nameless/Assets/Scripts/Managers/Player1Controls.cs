@@ -9,6 +9,15 @@ public class Player1Controls : MonoBehaviour, IHurtable
     public int maxHealthPoints;
     public int currentHealthPoints;
 
+    public static Player1Controls instance;
+
+    void Awake()
+    {
+        instance = this;
+    }
+
+    public GameObject player1;
+
     // Use this for initialization
     void Start()
     {

@@ -7,6 +7,7 @@ public class SecurityCamera : MonoBehaviour
     GameObject securityManager;
     SpriteRenderer _observedColor;
     SecurityManager _sm;
+    public  Enemy[] guardsToAlarm;
 
     int index;
                         
@@ -40,7 +41,11 @@ public class SecurityCamera : MonoBehaviour
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             _sm.securityCameras[index].triggerStatus = Trigger_Status.CAUTION;
-            StartCoroutine(BeingDetected(3f));
+            StartCoroutine(BeingDetected(1f));
+            foreach(Enemy e in guardsToAlarm)
+            {
+                e.setBaheviour(new AwareBehaviour(e, this.transform.position));
+            }
         }
     }
 
@@ -61,5 +66,10 @@ public class SecurityCamera : MonoBehaviour
             yield return null;
         }
         _sm.securityCameras[index].triggerStatus = Trigger_Status.TRIGGER;
+
+        foreach (Enemy e in guardsToAlarm)
+        {
+            e.setBaheviour(new TriggeredBehaviour(e));
+        }
     }
 }

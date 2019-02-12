@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Pathfinding;
 
 public class Enemy : MonoBehaviour, IHurtable{
 
@@ -19,18 +20,19 @@ public class Enemy : MonoBehaviour, IHurtable{
     private Vector3 moveY;
     private Vector2 targetVector;
     public float actualCooldownTime;
-    public double distanceToTarget;
-    public float angleToTarget;
+    private float angleToTarget;
     public float xdis;
     public float ydis;
+    public float distanceToTarget;
     private IBehaviour behaviour;
+    public EnemyAI eai;
     
 	void Start () {
         moveY = new Vector3(speed, 0, 0);
         moveX = new Vector3(0, speed, 0);
+        eai = GetComponent<EnemyAI>();
         behaviour = new IdleBehaviour(this);
-
-
+        target = Player1Controls.instance.player1;
     }
 	
 	void Update () {
@@ -114,11 +116,9 @@ public class Enemy : MonoBehaviour, IHurtable{
                 }
             }
         }
-            
-        
     }
 
-    
+
 
     void OnDrawGizmos()
     {
@@ -133,6 +133,14 @@ public class Enemy : MonoBehaviour, IHurtable{
         //Destroy(gameObject);
     }
 
+    public void setBaheviour(IBehaviour behaviour)
+    {
+        if(behaviour != null)
+        {
+            this.behaviour = behaviour;
+        }
+    }
+
     public void TakeDamage(int damage)
     {
         healthPoints -= damage;
@@ -143,55 +151,8 @@ public class Enemy : MonoBehaviour, IHurtable{
         return healthPoints;
     }
 
-    public void moveToPoint(Point point)
-    {
 
-        if ((Mathf.Abs(transform.position.y - point.y) > 0.5 && Mathf.Abs(point.x - transform.position.x) > 0.5))
-        {
-            if (Mathf.Abs(transform.position.y - point.y) > 0.5)
-            {
-                if (transform.position.y - point.y > 0.5)
-                {
-                    Vector3 mx = moveX * Mathf.Sign(point.x - transform.position.x);
-                    transform.Translate(mx * Time.deltaTime * speed);
-                }
-                else
-                {
-                    Vector3 mx = moveX * -Mathf.Sign(point.x - transform.position.x);
-                    transform.Translate(mx * Time.deltaTime * speed);
-                }
 
-            }
-
-            if (Mathf.Abs(transform.position.x - point.x) > 0.5)
-            {
-                if (transform.position.x - point.x > 0.5)
-                {
-                    Vector3 my = moveY * -Mathf.Sign(point.y - transform.position.y);
-                    transform.Translate(my * Time.deltaTime * speed);
-                }
-                else
-                {
-                    Vector3 my = moveY * Mathf.Sign(point.y - transform.position.y);
-                    transform.Translate(my * Time.deltaTime * speed);
-                }
-
-            }
-        }
-           
-    }
-
-    public class Point
-    {
-        public float x;
-        public float y;
-
-        public Point(float x, float y)
-        {
-            this.x = y;
-            this.y = y;
-        }
-    }
 
 
 }
